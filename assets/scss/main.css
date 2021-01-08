@@ -1,0 +1,34 @@
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #AB80F0;
+}
+
+header .line {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: left;
+      -ms-flex-pack: left;
+          justify-content: left;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 1rem;
+}
+
+header .line h2 {
+  margin-right: 2rem;
+  font-size: 28px;
+}
+
+header .line h2 a {
+  text-decoration: none;
+  color: white;
+}
+/*# sourceMappingURL=main.css.map */

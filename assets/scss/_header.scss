@@ -1,0 +1,17 @@
+header {
+    background-color: #AB80F0;
+    .line {
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        padding: 1rem;
+        h2 {
+            margin-right: 2rem;
+            font-size: 28px;
+            a {
+                text-decoration: none;
+                color: white;
+            }
+        }
+    }
+}
