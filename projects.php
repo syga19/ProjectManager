@@ -1,4 +1,5 @@
 <?php  include('add_two.php'); ?>
+<?php require_once 'update_p.php';?>
 <?php
    $servername = "localhost";
    $username = "root";
@@ -60,7 +61,12 @@
 
             if (mysqli_num_rows($result) > 0) {
                 while($row = mysqli_fetch_assoc($result)) {
-                    print ('<tr><td>' . $row["id"] . '</td><td>' . $row["project"] . " " . '</td><td>' . $row["name"] . '</td><td>' . " " . '<a href="?action=deletePro&id='  . $row['id'] . '"><button>DELETE</button></a>' . " " . '<a href="?action=update&name='  . $row['name'] . '"><button>UPDATE</button></a>' . '</td></tr>');
+                    print ('<tr><td>' . $row["id"] . '</td><td>' . $row["project"] . 
+                    " " . '</td><td>' . $row["name"] . '</td><td>' . " " 
+                    . '<a href="?action=deletePro&id='  . $row['id'] . '"><button>DELETE</button></a>' . " " 
+                    . '<a href="projects.php?update=' . $row['id']
+                    . '&name='.$row['project'] . '"><button>UPDATE</button></a>' . 
+                    '</td></tr>');
                 }
             } else {
                 echo "0 results";
@@ -89,5 +95,26 @@
 		<button class="btn" type="submit" name="add" >ADD</button>
 	</form>
     </div>
+
+<?php
+    $servername = "localhost";
+    $username = "root";
+    $password = "mysql";
+    $db = "crud";
+    $conn = mysqli_connect($servername, $username, $password, $db);
+    if (isset($_GET['update'])) {
+        $id = $_GET['update'];
+        $name = $_GET['name'];
+        $update = true;
+        $record = mysqli_query($conn, "SELECT * FROM project WHERE id='$id'");
+    }
+?>
+<div class="forma">
+	<form method="POST" action="update_p.php" >
+        <input type="hidden" name="id" value="<?php echo $id; ?>">
+		<input type="text" name="name" value="<?php echo $name; ?>">
+	    <button class="btn" type="submit" name="update" style="background: #AB80F0;" >UPDATE</button>
+	</form>
+</div>
 </body>
 </html>

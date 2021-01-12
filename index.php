@@ -1,18 +1,19 @@
-<?php  include('add.php'); ?>
+<?php include 'add.php'; ?>
+<?php require_once 'update.php'; ?>
 <?php
-    $servername = "localhost";
-    $username = "root";
-    $password = "mysql";
-    $db = "crud";
+$servername = "localhost";
+$username = "root";
+$password = "mysql";
+$db = "crud";
 
-    // Create connection
-    $conn = mysqli_connect($servername, $username, $password, $db);
-    // Check connection
-    if (!$conn) {
-        die("Connection failed: " . mysqli_connect_error());
-    }
+// Create connection
+$conn = mysqli_connect($servername, $username, $password, $db);
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
 //issikvieti delete.php
-    require_once 'delete.php';
+require_once 'delete.php';
 
 ?>
 <!DOCTYPE html>
@@ -34,6 +35,55 @@
         <h2><a href="projects.php">Projects</a></h2>
     </div>
 </header>
+<!-- update -->
+<?php
+    $servername = "localhost";
+    $username = "root";
+    $password = "mysql";
+    $db = "crud";
+    // Create connection
+    $conn = mysqli_connect($servername, $username, $password, $db);
+    if (isset($_GET['update'])) {
+        $id = $_GET['update'];
+        $name = $_GET['name'];
+        $project = $_GET['project_id'];
+        $update = true;
+        $record = mysqli_query($conn, "SELECT * FROM employee WHERE id='$id'");
+
+    }
+
+?>
+<!-- Bandau select pasidaryt -->
+<?php
+  $servername = "localhost";
+  $username = "root";
+  $password = "mysql";
+  $db = "crud";
+  // Create connection
+  $conn = mysqli_connect($servername, $username, $password, $db);
+  function all_projects($conn) {
+      $output = '';
+      $sql = "SELECT name FROM project";
+      $result = mysqli_query($conn, $sql);
+      while($row = mysqli_fetch_array($result)) {
+          $output .= '<option value="'.$row["project_id"] . '">'.$row["name"].'</option>';
+      }
+      return $output;
+  }
+?>
+
+<div class="forma">
+	<form method="POST" action="update.php" >
+        <input type="hidden" name="id" value="<?php echo $id; ?>">
+		<input type="text" name="name" value="<?php echo $name; ?>">
+        <select name="project" >
+            <option value="0">Projects</option>
+            <?php echo all_projects($conn); ?>
+        </select>
+	    <button class="btn" type="submit" name="update" style="background: #AB80F0;" >UPDATE</button>
+	</form>
+</div>
+
 <div>
 <table class="table table-hover">
     <thead>
@@ -46,36 +96,42 @@
     </thead>
     <tbody>
     <?php
-     $servername = "localhost";
-     $username = "root";
-     $password = "mysql";
-     $db = "crud";
-     // Create connection
-     $conn = mysqli_connect($servername, $username, $password, $db);
-     // Check connection
-     if (!$conn) {
-         die("Connection failed: " . mysqli_connect_error());
-     }
+$servername = "localhost";
+$username = "root";
+$password = "mysql";
+$db = "crud";
+// Create connection
+$conn = mysqli_connect($servername, $username, $password, $db);
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
 
-     $sql = "SELECT employee.id as id,
+$sql = "SELECT employee.id as id,
      employee.name as employee,
      project.id as project_id,
      project.name as project
      FROM crud.employee
      LEFT JOIN Project
      ON employee.project_id = project.id;";
-     $result = mysqli_query($conn, $sql);
+$result = mysqli_query($conn, $sql);
 
-     if (mysqli_num_rows($result) > 0) {
-         while($row = mysqli_fetch_assoc($result)) {
-             print ('<tr><td>' . $row["id"] . '</td><td>' . $row["employee"] . " " . '</td><td>' . $row["project"] . '</td><td>' . " " . '<a href="?action=deleteEmpl&id='  . $row['id'] . '"><button>DELETE</button></a>' . " " . '<a href="?action=update&name='  . $row['name'] . '"><button>UPDATE</button></a>' . '</td></tr>');
-         }
-     } else {
-         echo "0 results";
-     }
+if (mysqli_num_rows($result) > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        print('<tr><td>' . $row["id"] . '</td><td>'
+        . $row["employee"] . " " . '</td><td>'
+        . $row["project"] . '</td><td>' . " "
+        . '<a href="?action=deleteEmpl&id='
+        . $row['id'] . '"><button>DELETE</button></a>'
+        . " " . '<a href="index.php?update=' . $row['id']
+        . '&name='.$row['employee']. '&project='.$row['project'].' "><button>UPDATE</button></a>' . '</td></tr>');
+    }
+} else {
+    echo "0 results";
+}
 
-     mysqli_close($conn);
-    ?>
+mysqli_close($conn);
+?>
     </tbody>
 </table>
 <?php while ($row) { ?>
@@ -94,11 +150,12 @@
     <div class="forma">
 	<form method="POST" action="add.php" >
 		<input type="text" name="name">
-		<button class="btn" type="submit" name="add" >ADD</button>
+		<button class="btn" type="submit" name="add" style="background: #AB80F0;" >ADD</button>
 	</form>
     </div>
 
+
+
+
 </body>
 </html>
-
-
