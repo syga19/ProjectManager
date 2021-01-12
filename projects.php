@@ -35,6 +35,28 @@
         <h2><a href="projects.php">Projects</a></h2>
     </div>
 </header>
+
+<?php
+    $servername = "localhost";
+    $username = "root";
+    $password = "mysql";
+    $db = "crud";
+    $conn = mysqli_connect($servername, $username, $password, $db);
+    if (isset($_GET['update'])) {
+        $id = $_GET['update'];
+        $name = $_GET['name'];
+        $update = true;
+        $record = mysqli_query($conn, "SELECT * FROM project WHERE id='$id'");
+    }
+?>
+<div style="margin: 1rem;">
+	<form method="POST" action="update_p.php" >
+        <input type="hidden" name="id" value="<?php echo $id; ?>">
+		<input type="text" name="name" value="<?php echo $name; ?>">
+	    <button class="btn" type="submit" name="update" style="background: #AB80F0;" >UPDATE</button>
+	</form>
+</div>
+
 <table class="table table-hover">
         <thead>
         <tr>
@@ -63,9 +85,9 @@
                 while($row = mysqli_fetch_assoc($result)) {
                     print ('<tr><td>' . $row["id"] . '</td><td>' . $row["project"] . 
                     " " . '</td><td>' . $row["name"] . '</td><td>' . " " 
-                    . '<a href="?action=deletePro&id='  . $row['id'] . '"><button>DELETE</button></a>' . " " 
+                    . '<a href="?action=deletePro&id='  . $row['id'] . '"><button style="background: #AB80F0; padding: 3px;">DELETE</button></a>' . " " 
                     . '<a href="projects.php?update=' . $row['id']
-                    . '&name='.$row['project'] . '"><button>UPDATE</button></a>' . 
+                    . '&name='.$row['project'] . '"><button style="background: #AB80F0; padding: 3px;">UPDATE</button></a>' . 
                     '</td></tr>');
                 }
             } else {
@@ -89,32 +111,11 @@
 	<?php } ?>
 </div>
 
-    <div class="forma">
+    <div style="margin: 1rem;">
 	<form method="POST" action="add_two.php" >
-		<input type="text" name="name" placeholder="Enter new course">
-		<button class="btn" type="submit" name="add" >ADD</button>
+		<input type="text" name="name" placeholder="Enter new project">
+		<button class="btn" type="submit" name="add" style="background: #AB80F0;" >ADD</button>
 	</form>
     </div>
-
-<?php
-    $servername = "localhost";
-    $username = "root";
-    $password = "mysql";
-    $db = "crud";
-    $conn = mysqli_connect($servername, $username, $password, $db);
-    if (isset($_GET['update'])) {
-        $id = $_GET['update'];
-        $name = $_GET['name'];
-        $update = true;
-        $record = mysqli_query($conn, "SELECT * FROM project WHERE id='$id'");
-    }
-?>
-<div class="forma">
-	<form method="POST" action="update_p.php" >
-        <input type="hidden" name="id" value="<?php echo $id; ?>">
-		<input type="text" name="name" value="<?php echo $name; ?>">
-	    <button class="btn" type="submit" name="update" style="background: #AB80F0;" >UPDATE</button>
-	</form>
-</div>
 </body>
 </html>

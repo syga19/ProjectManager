@@ -63,20 +63,20 @@ require_once 'delete.php';
   $conn = mysqli_connect($servername, $username, $password, $db);
   function all_projects($conn) {
       $output = '';
-      $sql = "SELECT name FROM project";
+      $sql = "SELECT name, id FROM project";
       $result = mysqli_query($conn, $sql);
       while($row = mysqli_fetch_array($result)) {
-          $output .= '<option value="'.$row["project_id"] . '">'.$row["name"].'</option>';
+          $output .= '<option value="'.$row["id"] . '">'.$row["name"].'</option>';
       }
       return $output;
   }
 ?>
 
-<div class="forma">
+<div style="margin: 1rem;">
 	<form method="POST" action="update.php" >
         <input type="hidden" name="id" value="<?php echo $id; ?>">
 		<input type="text" name="name" value="<?php echo $name; ?>">
-        <select name="project" >
+        <select name="project_id" id="project_id" >
             <option value="0">Projects</option>
             <?php echo all_projects($conn); ?>
         </select>
@@ -122,9 +122,9 @@ if (mysqli_num_rows($result) > 0) {
         . $row["employee"] . " " . '</td><td>'
         . $row["project"] . '</td><td>' . " "
         . '<a href="?action=deleteEmpl&id='
-        . $row['id'] . '"><button>DELETE</button></a>'
+        . $row['id'] . '"><button style="background: #AB80F0; padding: 3px;">DELETE</button></a>'
         . " " . '<a href="index.php?update=' . $row['id']
-        . '&name='.$row['employee']. '&project='.$row['project'].' "><button>UPDATE</button></a>' . '</td></tr>');
+        . '&name='.$row['employee']. '&project='.$row['project'].' "><button style="background: #AB80F0; padding: 3px;">UPDATE</button></a>' . '</td></tr>');
     }
 } else {
     echo "0 results";
@@ -147,9 +147,9 @@ mysqli_close($conn);
 	<?php } ?>
 </div>
 
-    <div class="forma">
+    <div style="margin: 1rem;">
 	<form method="POST" action="add.php" >
-		<input type="text" name="name">
+		<input type="text" name="name" placeholder="Enter new employee">
 		<button class="btn" type="submit" name="add" style="background: #AB80F0;" >ADD</button>
 	</form>
     </div>
