@@ -24,5 +24,5 @@ For this project were used technologies:
 
 Now you should see my crud app like this :
 
-<img src="APpp.png" width="80" >
+<img src="APpp.png">
 
